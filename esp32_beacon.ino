@@ -12,6 +12,7 @@
 #include <BLEDevice.h>
 #include <BLEUtils.h>
 #include <BLEAdvertising.h>
+#include <BLEBeacon.h>
 
 // =========================================================================
 // CONFIGURATION: Set the Beacon Zone ID here
@@ -46,7 +47,7 @@ void setBeaconPayload(BLEAdvertising* pAdvertising, uint16_t minorVal) {
     strServiceData += (char)26;     // Length of structure
     strServiceData += (char)0xFF;   // Manufacturer Specific Data Type
     strServiceData += oBeacon.getData();
-    oAdvertisementData.addData(strServiceData);
+    oAdvertisementData.addData((char*)strServiceData.c_str(), strServiceData.length());
     
     // Set device name in scan response so the scanner can pick it up both ways
     oScanResponseData.setName(BEACON_NAME);
