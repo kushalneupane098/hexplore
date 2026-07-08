@@ -53,22 +53,6 @@ class BleViewModel(private val repository: PlaceRepository) : ViewModel() {
         viewModelScope.launch {
             repository.populateDatabaseIfEmpty()
         }
-
-        // Collect detected signals and load respective place details from the Room DB
-        viewModelScope.launch {
-            BleSignalTracker.detectedBeacon.collectLatest { signal ->
-                if (signal != null) {
-                    Log.d(TAG, "ViewModel collected signal: UID=${signal.uid}")
-                    repository.getPlaceByUid(signal.uid).collectLatest { place ->
-                        if (place != null) {
-                            _currentPlace.value = place
-                        }
-                    }
-                } else {
-                    _currentPlace.value = null
-                }
-            }
-        }
     }
 
     fun selectPlaceManually(place: PlaceWithDetails) {

@@ -16,6 +16,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -105,6 +106,7 @@ import com.example.ui.RevolutionizedRadar
 import com.example.ui.LocationImage
 import com.example.ui.getIconForLocation
 import com.example.ui.CoilImageWithFallback
+import androidx.compose.ui.res.painterResource
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import android.hardware.Sensor
 import android.hardware.SensorEvent
@@ -1944,29 +1946,39 @@ fun HeaderSection(isScanning: Boolean) {
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Column {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Box(
-                        modifier = Modifier
-                            .size(8.dp)
-                            .background(if (isScanning) Color(0xFF2DCE89) else Color.Red, CircleShape)
-                    )
-                    Spacer(modifier = Modifier.width(6.dp))
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Image(
+                    painter = painterResource(id = com.example.R.drawable.logo),
+                    contentDescription = "App Logo",
+                    modifier = Modifier
+                        .size(40.dp)
+                        .clip(RoundedCornerShape(10.dp))
+                )
+                Spacer(modifier = Modifier.width(12.dp))
+                Column {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Box(
+                            modifier = Modifier
+                                .size(8.dp)
+                                .background(if (isScanning) Color(0xFF2DCE89) else Color.Red, CircleShape)
+                        )
+                        Spacer(modifier = Modifier.width(6.dp))
+                        Text(
+                            text = if (isScanning) "RADAR ACTIVE" else "RADAR OFFLINE",
+                            fontSize = 9.sp,
+                            fontWeight = FontWeight.ExtraBold,
+                            color = if (isScanning) Color(0xFF2DCE89) else Color(0xFFFF4D4D),
+                            letterSpacing = 1.5.sp
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(2.dp))
                     Text(
-                        text = if (isScanning) "RADAR ACTIVE" else "RADAR OFFLINE",
-                        fontSize = 9.sp,
-                        fontWeight = FontWeight.ExtraBold,
-                        color = if (isScanning) Color(0xFF2DCE89) else Color(0xFFFF4D4D),
-                        letterSpacing = 1.5.sp
+                        text = "HEXplore Spatial Nav",
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Black,
+                        color = Color.White
                     )
                 }
-                Spacer(modifier = Modifier.height(2.dp))
-                Text(
-                    text = "HEXplore Spatial Nav",
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Black,
-                    color = Color.White
-                )
             }
 
             Text(
