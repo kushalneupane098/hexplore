@@ -660,6 +660,12 @@ fun ZonesScreen(
                     borderColor = if (isNearby) Color(0xFF2DCE89).copy(alpha = 0.45f) else Color.White.copy(alpha = 0.08f),
                     backgroundColor = if (isNearby) Color(0xFF0C1D18).copy(alpha = 0.6f) else TranslucentSurface.copy(alpha = 0.4f)
                 ) {
+                    val context = LocalContext.current
+                    val localPhotoResId = remember(place.place.imageAsset) {
+                        val res = context.resources.getIdentifier(place.place.imageAsset, "drawable", context.packageName)
+                        if (res != 0) res else com.example.R.drawable.img_zone_default
+                    }
+
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -674,7 +680,7 @@ fun ZonesScreen(
                             modifier = Modifier
                                 .size(80.dp)
                                 .clip(RoundedCornerShape(14.dp)),
-                            localFallbackResId = com.example.R.drawable.img_zone_default
+                            localFallbackResId = localPhotoResId
                         )
 
                         Spacer(modifier = Modifier.width(14.dp))
@@ -685,15 +691,28 @@ fun ZonesScreen(
                                 horizontalArrangement = Arrangement.SpaceBetween,
                                 modifier = Modifier.fillMaxWidth()
                             ) {
-                                Text(
-                                    text = place.place.locationName,
-                                    fontSize = 15.sp,
-                                    fontWeight = FontWeight.Bold,
-                                    color = Color.White,
-                                    maxLines = 1,
-                                    overflow = TextOverflow.Ellipsis,
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
                                     modifier = Modifier.weight(1f, fill = false)
-                                )
+                                ) {
+                                    Text(
+                                        text = place.place.locationName,
+                                        fontSize = 15.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        color = Color.White,
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis
+                                    )
+                                    if (place.place.isVisited) {
+                                        Spacer(modifier = Modifier.width(4.dp))
+                                        Icon(
+                                            imageVector = Icons.Default.CheckCircle,
+                                            contentDescription = "Visited",
+                                            tint = Color(0xFF2DCE89),
+                                            modifier = Modifier.size(13.dp)
+                                        )
+                                    }
+                                }
                                 Spacer(modifier = Modifier.width(6.dp))
                                 Text(
                                     text = if (isNearby) "NEARBY" else "PREVIEW",
@@ -1934,63 +1953,87 @@ fun HeaderSection(isScanning: Boolean) {
     GlassmorphicCard(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp),
-        shape = RoundedCornerShape(24.dp),
-        borderColor = ElectricCyan.copy(alpha = 0.2f),
-        backgroundColor = DeepNavy.copy(alpha = 0.65f)
+            .padding(horizontal = 16.dp, vertical = 12.dp),
+        shape = RoundedCornerShape(20.dp),
+        borderColor = if (isScanning) ElectricCyan.copy(alpha = 0.25f) else Color.White.copy(alpha = 0.08f),
+        backgroundColor = DeepNavy.copy(alpha = 0.7f)
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 20.dp, vertical = 14.dp),
+                .padding(horizontal = 16.dp, vertical = 12.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Image(
-                    painter = painterResource(id = com.example.R.drawable.logo),
-                    contentDescription = "App Logo",
+                // Circular outer glowing container for logo
+                Box(
                     modifier = Modifier
-                        .size(40.dp)
-                        .clip(RoundedCornerShape(10.dp))
-                )
+                        .size(44.dp)
+                        .background(
+                            Brush.linearGradient(
+                                colors = listOf(ElectricCyan.copy(alpha = 0.8f), NeonBlue.copy(alpha = 0.8f))
+                            ),
+                            RoundedCornerShape(12.dp)
+                        )
+                        .padding(1.5.dp)
+                ) {
+                    Image(
+                        painter = painterResource(id = com.example.R.drawable.logo),
+                        contentDescription = "App Logo",
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .clip(RoundedCornerShape(11.dp))
+                    )
+                }
                 Spacer(modifier = Modifier.width(12.dp))
                 Column {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Box(
-                            modifier = Modifier
-                                .size(8.dp)
-                                .background(if (isScanning) Color(0xFF2DCE89) else Color.Red, CircleShape)
-                        )
-                        Spacer(modifier = Modifier.width(6.dp))
-                        Text(
-                            text = if (isScanning) "RADAR ACTIVE" else "RADAR OFFLINE",
-                            fontSize = 9.sp,
-                            fontWeight = FontWeight.ExtraBold,
-                            color = if (isScanning) Color(0xFF2DCE89) else Color(0xFFFF4D4D),
-                            letterSpacing = 1.5.sp
-                        )
-                    }
-                    Spacer(modifier = Modifier.height(2.dp))
                     Text(
-                        text = "HEXplore Spatial Nav",
-                        fontSize = 16.sp,
+                        text = "HEXplore",
+                        fontSize = 18.sp,
                         fontWeight = FontWeight.Black,
-                        color = Color.White
+                        color = Color.White,
+                        letterSpacing = 0.5.sp
+                    )
+                    Text(
+                        text = "SPATIAL NAV RADAR",
+                        fontSize = 8.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = ElectricCyan,
+                        letterSpacing = 1.5.sp
                     )
                 }
             }
 
-            Text(
-                text = "Welcome to HEX 2083",
-                fontSize = 12.sp,
-                fontWeight = FontWeight.Black,
-                color = ElectricCyan,
-                letterSpacing = 0.5.sp,
+            // Dynamic Pulsing Status Badge
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
-                    .background(ElectricCyan.copy(alpha = 0.12f), RoundedCornerShape(8.dp))
-                    .padding(horizontal = 12.dp, vertical = 6.dp)
-            )
+                    .background(
+                        if (isScanning) Color(0xFF2DCE89).copy(alpha = 0.12f) else Color(0xFFFF4D4D).copy(alpha = 0.12f),
+                        RoundedCornerShape(30.dp)
+                    )
+                    .border(
+                        width = 1.dp,
+                        color = if (isScanning) Color(0xFF2DCE89).copy(alpha = 0.3f) else Color(0xFFFF4D4D).copy(alpha = 0.3f),
+                        shape = RoundedCornerShape(30.dp)
+                    )
+                    .padding(horizontal = 10.dp, vertical = 5.dp)
+            ) {
+                Box(
+                    modifier = Modifier
+                        .size(6.dp)
+                        .background(if (isScanning) Color(0xFF2DCE89) else Color(0xFFFF4D4D), CircleShape)
+                )
+                Spacer(modifier = Modifier.width(6.dp))
+                Text(
+                    text = if (isScanning) "ACTIVE" else "OFFLINE",
+                    fontSize = 9.sp,
+                    fontWeight = FontWeight.ExtraBold,
+                    color = if (isScanning) Color(0xFF2DCE89) else Color(0xFFFF4D4D),
+                    letterSpacing = 1.sp
+                )
+            }
         }
     }
 }

@@ -22,7 +22,8 @@ data class PlaceEntity(
     val major: Int,
     val minor: Int,
     val about: String,
-    val imageUrl: String? = null
+    val imageUrl: String? = null,
+    val isVisited: Boolean = false
 )
 
 @Entity(

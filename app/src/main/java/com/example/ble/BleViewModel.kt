@@ -53,6 +53,16 @@ class BleViewModel(private val repository: PlaceRepository) : ViewModel() {
         viewModelScope.launch {
             repository.populateDatabaseIfEmpty()
         }
+
+        // Collect detected signals and mark them as visited in the DB persistently
+        viewModelScope.launch {
+            BleSignalTracker.detectedBeacon.collectLatest { signal ->
+                if (signal != null) {
+                    Log.d(TAG, "Persisting visited status for beacon: UID=${signal.uid}")
+                    repository.markPlaceAsVisited(signal.uid)
+                }
+            }
+        }
     }
 
     fun selectPlaceManually(place: PlaceWithDetails) {

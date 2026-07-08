@@ -126,4 +126,8 @@ class PlaceRepository(
             }
         }
     }
+
+    suspend fun markPlaceAsVisited(uid: String) {
+        placeDao.markPlaceAsVisited(uid)
+    }
 }

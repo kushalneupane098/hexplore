@@ -35,4 +35,7 @@ interface PlaceDao {
 
     @Query("DELETE FROM places")
     suspend fun deleteAllPlaces()
+
+    @Query("UPDATE places SET isVisited = 1 WHERE uid = :uid")
+    suspend fun markPlaceAsVisited(uid: String)
 }
