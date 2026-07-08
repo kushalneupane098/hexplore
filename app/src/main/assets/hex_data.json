@@ -157,7 +157,12 @@
           {
             "title": "Stop Time Precision Game",
             "desc": "Trigger the digital sensor exactly at 10.00 seconds. Win premium stickers for sub-millisecond precision!",
-            "image_url": ""
+            "image_url": "img_stop_time_game"
+          },
+          {
+            "title": "Robo Soccer Challenge",
+            "desc": "Control a specialized mobile robot chassis to dribble and score goals against opponent defenders in the mini arena!",
+            "image_url": "img_robo_soccer_game"
           }
         ],
         "about_navigation": [
