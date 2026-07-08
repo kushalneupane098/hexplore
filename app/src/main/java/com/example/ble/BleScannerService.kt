@@ -14,6 +14,8 @@ import android.bluetooth.le.ScanResult
 import android.bluetooth.le.ScanSettings
 import android.content.Context
 import android.content.Intent
+import android.content.BroadcastReceiver
+import android.content.IntentFilter
 import android.os.Build
 import android.os.IBinder
 import android.os.Handler
@@ -43,6 +45,23 @@ class BleScannerService : Service() {
         override fun run() {
             evaluateTrackedBeacons()
             handler.postDelayed(this, 1500) // check every 1.5 seconds
+        }
+    }
+
+    private val bluetoothStateReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            val action = intent?.action
+            if (action == BluetoothAdapter.ACTION_STATE_CHANGED) {
+                val state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, BluetoothAdapter.ERROR)
+                if (state == BluetoothAdapter.STATE_ON) {
+                    Log.d(TAG, "Bluetooth turned ON. Starting scanner.")
+                    initBluetooth()
+                    startScanning()
+                } else if (state == BluetoothAdapter.STATE_OFF) {
+                    Log.d(TAG, "Bluetooth turned OFF. Stopping scanner.")
+                    stopScanning()
+                }
+            }
         }
     }
 
@@ -172,6 +191,10 @@ class BleScannerService : Service() {
         createNotificationChannel()
         initBluetooth()
         handler.post(updateRunnable)
+        
+        // Register Bluetooth state changes listener
+        val filter = IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED)
+        registerReceiver(bluetoothStateReceiver, filter)
     }
 
     @SuppressLint("ForegroundServiceType")
@@ -196,6 +219,11 @@ class BleScannerService : Service() {
 
     override fun onDestroy() {
         Log.d(TAG, "BleScannerService Destroyed")
+        try {
+            unregisterReceiver(bluetoothStateReceiver)
+        } catch (e: Exception) {
+            Log.e(TAG, "Error unregistering receiver", e)
+        }
         handler.removeCallbacks(updateRunnable)
         stopScanning()
         BleSignalTracker.setScanningState(false)
