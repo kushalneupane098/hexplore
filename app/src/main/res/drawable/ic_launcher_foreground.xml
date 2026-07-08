@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    
+    <!-- Outer concentric radar sweeping arc -->
+    <path
+        android:pathData="M 54, 54 m -30, 0 a 30,30 0 1,0 60,0 a 30,30 0 1,0 -60,0"
+        android:strokeColor="#00B4D8"
+        android:strokeWidth="3.5"
+        android:fillColor="#00000000" />
+        
+    <!-- Horizontal Crosshair Line -->
+    <path
+        android:pathData="M 20,54 L 88,54"
+        android:strokeColor="#00B4D8"
+        android:strokeWidth="2.5" />
+        
+    <!-- Vertical Crosshair Line -->
+    <path
+        android:pathData="M 54,20 L 54,88"
+        android:strokeColor="#00B4D8"
+        android:strokeWidth="2.5" />
+        
+    <!-- Inner scanning sweep circle -->
+    <path
+        android:pathData="M 54, 54 m -14, 0 a 14,14 0 1,0 28,0 a 14,14 0 1,0 -28,0"
+        android:strokeColor="#90E0EF"
+        android:strokeWidth="2"
+        android:fillColor="#1A00B4D8" />
+        
+    <!-- Concentric radar central core -->
+    <path
+        android:pathData="M 54, 54 m -5, 0 a 5,5 0 1,0 10,0 a 5,5 0 1,0 -10,0"
+        android:fillColor="#FFFFFF" />
+        
+    <!-- Glowing beacon ping indicator -->
+    <path
+        android:pathData="M 72, 38 m -4, 0 a 4,4 0 1,0 8,0 a 4,4 0 1,0 -8,0"
+        android:fillColor="#90E0EF" />
+        
+</vector>

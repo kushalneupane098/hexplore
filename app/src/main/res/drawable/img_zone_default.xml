@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="200dp"
+    android:height="200dp"
+    android:viewportWidth="200"
+    android:viewportHeight="200">
+    <path
+        android:pathData="M0,0h200v200h-200z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:startX="0"
+                android:startY="0"
+                android:endX="200"
+                android:endY="200"
+                android:type="linear">
+                <item android:color="#0D1B2A" android:offset="0.0"/>
+                <item android:color="#1B263B" android:offset="1.0"/>
+            </gradient>
+        </aapt:attr>
+    </path>
+    <!-- Radar-like concentric circles -->
+    <path
+        android:pathData="M 100, 100 m -80, 0 a 80,80 0 1,0 160,0 a 80,80 0 1,0 -160,0"
+        android:strokeColor="#1F00B4D8"
+        android:strokeWidth="2"
+        android:fillColor="#00000000" />
+    <path
+        android:pathData="M 100, 100 m -50, 0 a 50,50 0 1,0 100,0 a 50,50 0 1,0 -100,0"
+        android:strokeColor="#2F00B4D8"
+        android:strokeWidth="1.5"
+        android:fillColor="#00000000" />
+    <!-- Location Pin icon in the center -->
+    <path
+        android:pathData="M100,60 C88.95,60 80,68.95 80,80 C80,95 100,120 100,120 C100,120 120,95 120,80 C120,68.95 111.05,60 100,60 Z M100,87 C96.13,87 93,83.87 93,80 C93,76.13 96.13,73 100,73 C103.87,73 107,76.13 107,80 C107,83.87 103.87,87 100,87 Z"
+        android:fillColor="#00B4D8" />
+</vector>

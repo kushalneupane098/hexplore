@@ -1,0 +1,6 @@
+{
+  "name": "HEXplore",
+  "description": "Offline-first Indoor Positioning and Navigation app for the Himalaya Exhibition (HEX) at Himalaya College of Engineering.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

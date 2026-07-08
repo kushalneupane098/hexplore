@@ -1,0 +1,201 @@
+{
+  "beacons": {
+    "HEX_BEACON_01": {
+      "location_name": "Main Gate",
+      "short_description": "The main entry checkpoint of Himalaya College of Engineering (HCOE) for HEX 2083.",
+      "image_asset": "img_main_gate",
+      "major": 1,
+      "minor": 1,
+      "image_url": "",
+      "detailed_info": {
+        "about": "The main entry checkpoint of Himalaya College of Engineering (HCOE) for HEX 2083. Welcome to the exhibition!",
+        "showcases": [],
+        "games": []
+      },
+      "navigation": {
+        "in_front": null,
+        "behind": null,
+        "left": null,
+        "right": { "target_uid": "HEX_BEACON_03", "name": "Basketball Court" }
+      }
+    },
+    "HEX_BEACON_02": {
+      "location_name": "Registration Desk",
+      "short_description": "The central hub for all visitors. Get your exhibition pass, dynamic layout codes, and guidelines here.",
+      "image_asset": "img_registration_desk",
+      "major": 1,
+      "minor": 2,
+      "image_url": "",
+      "detailed_info": {
+        "about": "The central hub for all visitors. Managed by department clubs, this is where visitors register and download the HEXplore companion app.",
+        "showcases": [
+          {
+            "title": "Smart Siphon Spillway for Automated Water Level Management & Flood Mitigation",
+            "desc": "An automated spillway design model by the Civil Department Club featuring real-time water level adjustments and smart flood mitigation mechanics.",
+            "image_url": ""
+          },
+          {
+            "title": "Foundations for Civil Engineering Structures",
+            "desc": "A structural showcase illustrating various heavy foundation techniques and earth reinforcement models.",
+            "image_url": ""
+          },
+          {
+            "title": "Sustainable Rainwater Management for Resilient Cities",
+            "desc": "A green infrastructure layout showing sustainable urban rainwater harvesting and permeable drainage models.",
+            "image_url": ""
+          }
+        ],
+        "games": []
+      },
+      "navigation": {
+        "in_front": null,
+        "behind": null,
+        "left": null,
+        "right": null
+      }
+    },
+    "HEX_BEACON_03": {
+      "location_name": "Basketball Court",
+      "short_description": "The central outdoor arena hosting active technological innovations and clubs from HECC, IT, and HRC.",
+      "image_asset": "img_basketball_court",
+      "major": 1,
+      "minor": 3,
+      "image_url": "",
+      "detailed_info": {
+        "about": "The central outdoor arena hosting active technological innovations and clubs from HECC, IT, and HRC. Special Attraction Beyond Court: Robo Soccer Arena.",
+        "showcases": [
+          {
+            "title": "Virtual Lens Try-On Model with Dynamic Price Optimization",
+            "desc": "HECC Club: Augmented reality lens fitting model utilizing custom neural networks for accurate face contouring alongside automated price adjustment algorithms.",
+            "image_url": "",
+            "category": "Right Side (HECC Club)"
+          },
+          {
+            "title": "AI-Assisted Real-Time Two-Player Quiz",
+            "desc": "HECC Club: An interactive competitive game framework powered by AI to evaluate and serve custom engineering trivia live.",
+            "image_url": "",
+            "category": "Right Side (HECC Club)"
+          },
+          {
+            "title": "Portable Aero Drum Using FSR Technology",
+            "desc": "HECC Club: Digital music synthesis system utilizing Force Sensitive Resistors (FSR) to enable air-drumming with sub-10ms response latency.",
+            "image_url": "",
+            "category": "Right Side (HECC Club)"
+          },
+          {
+            "title": "Smart Shopping Cart for Real-Time Billing & Checkout",
+            "desc": "HECC Club: Embedded IoT cart using RFID scan tags and a local UI screen for instant itemized billing.",
+            "image_url": "",
+            "category": "Right Side (HECC Club)"
+          },
+          {
+            "title": "Smart Home Security System",
+            "desc": "IT Club: Home security mesh integrating biometric locks, motion alarms, and real-time remote surveillance notifications.",
+            "image_url": "",
+            "category": "Middle Zone (IT Club)"
+          },
+          {
+            "title": "IoT-Based Smart Irrigation System",
+            "desc": "IT Club: Automated agricultural layout measuring soil moisture parameters to conserve water consumption via smart valves.",
+            "image_url": "",
+            "category": "Middle Zone (IT Club)"
+          },
+          {
+            "title": "Bluetooth Remote-Controlled Car",
+            "desc": "IT Club: Low-latency Arduino-powered vehicle operated via custom Android controller interface.",
+            "image_url": "",
+            "category": "Middle Zone (IT Club)"
+          },
+          {
+            "title": "Remote-Controlled Balloon Popping Robot",
+            "desc": "HRC Club: Custom-engineered robot chassis designed for balloon-popping arena matches under high torque controls.",
+            "image_url": "",
+            "category": "Left Side (HRC Club)"
+          },
+          {
+            "title": "Autonomous Line Following Robot",
+            "desc": "HRC Club: Highly calibrated PID controlled vehicle navigating a complex black-line path with dynamic curves.",
+            "image_url": "",
+            "category": "Left Side (HRC Club)"
+          },
+          {
+            "title": "UAV Technology-Based Drone for Delivery, Surveying & Inspection",
+            "desc": "HRC Club: Multi-rotor drone platform showcasing stable indoor navigation and aerial telemetry systems.",
+            "image_url": "",
+            "category": "Left Side (HRC Club)"
+          },
+          {
+            "title": "Computer Vision-Based Gesture-Controlled Robotic Arm",
+            "desc": "HRC Club: Interactive industrial-grade arm prototype mimicking human hand gestures captured in real-time camera feeds.",
+            "image_url": "",
+            "category": "Left Side (HRC Club)"
+          }
+        ],
+        "games": [
+          {
+            "title": "Buzz Wire Challenge",
+            "desc": "Test your nerve and hand stability by guiding the metal loop through a twisted copper track without triggering the alarm!",
+            "image_url": ""
+          },
+          {
+            "title": "Ring Toss Bottle Game",
+            "desc": "A traditional amusement stall challenge where you must throw rings precisely over the active light-up bottles.",
+            "image_url": ""
+          },
+          {
+            "title": "Stop Time Precision Game",
+            "desc": "Trigger the digital sensor exactly at 10.00 seconds. Win premium stickers for sub-millisecond precision!",
+            "image_url": ""
+          }
+        ]
+      },
+      "navigation": {
+        "in_front": null,
+        "behind": null,
+        "left": null,
+        "right": null
+      }
+    },
+    "HEX_BEACON_04": {
+      "location_name": "Architect Zone",
+      "short_description": "Step into structural art. Explore advanced design scales, miniature physical blueprints, and creative structural setups.",
+      "image_asset": "img_architect_zone",
+      "major": 1,
+      "minor": 4,
+      "image_url": "",
+      "detailed_info": {
+        "about": "Step into structural art. Explore advanced design scales, miniature physical blueprints, and creative structural setups curated by the Department of Architecture.",
+        "showcases": [
+          {
+            "title": "Architectural Design of a Residential Building",
+            "desc": "Comprehensive modern residential building design featuring eco-sustainable ventilation and sunlight tracking parameters.",
+            "image_url": ""
+          },
+          {
+            "title": "Architectural Design of a School Building",
+            "desc": "A structural master plan of a smart educational campus focused on accessibility and community learning open zones.",
+            "image_url": ""
+          }
+        ],
+        "games": [
+          {
+            "title": "Rat Trap Structural Strategy Game",
+            "desc": "A layout-building logic board game where you must block the opponent's pieces using tactical walls.",
+            "image_url": ""
+          },
+          {
+            "title": "Face Paint Creative Zone",
+            "desc": "Get your face painted with traditional structural themes or tech glow designs by architecture students!",
+            "image_url": ""
+          }
+        ]
+      },
+      "navigation": {
+        "in_front": null,
+        "behind": null,
+        "left": null,
+        "right": null
+      }
+    }
+  }
+}
