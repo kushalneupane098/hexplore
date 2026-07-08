@@ -48,6 +48,20 @@ class BleScannerService : Service() {
         }
     }
 
+    private val restartScanRunnable = object : Runnable {
+        override fun run() {
+            if (isScanning) {
+                Log.d(TAG, "Periodic scan restart: Stopping scan to refresh Bluetooth controller...")
+                stopScanning()
+                handler.postDelayed({
+                    Log.d(TAG, "Periodic scan restart: Re-starting scan...")
+                    startScanning()
+                }, 1000)
+            }
+            handler.postDelayed(this, 90000) // restart scan every 90 seconds
+        }
+    }
+
     private val bluetoothStateReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             val action = intent?.action
@@ -107,7 +121,7 @@ class BleScannerService : Service() {
         val iterator = beaconLastSeen.entries.iterator()
         while (iterator.hasNext()) {
             val entry = iterator.next()
-            if (currentTime - entry.value > 6000) {
+            if (currentTime - entry.value > 12000) {
                 beaconRssiHistory.remove(entry.key)
                 iterator.remove()
             }
@@ -191,6 +205,7 @@ class BleScannerService : Service() {
         createNotificationChannel()
         initBluetooth()
         handler.post(updateRunnable)
+        handler.postDelayed(restartScanRunnable, 90000) // schedule first scan restart in 90 seconds
         
         // Register Bluetooth state changes listener
         val filter = IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED)
@@ -225,6 +240,7 @@ class BleScannerService : Service() {
             Log.e(TAG, "Error unregistering receiver", e)
         }
         handler.removeCallbacks(updateRunnable)
+        handler.removeCallbacks(restartScanRunnable)
         stopScanning()
         BleSignalTracker.setScanningState(false)
         super.onDestroy()
