@@ -242,6 +242,12 @@ fun PulsatingRadarBackground(isScanning: Boolean) {
 
 @Composable
 fun CentralHubLoop(place: PlaceWithDetails, isScanning: Boolean) {
+    val context = androidx.compose.ui.platform.LocalContext.current
+    val localPhotoResId = remember(place.place.imageAsset) {
+        val res = context.resources.getIdentifier(place.place.imageAsset, "drawable", context.packageName)
+        if (res != 0) res else com.example.R.drawable.img_zone_default
+    }
+
     val detectedBeacon by BleSignalTracker.detectedBeacon.collectAsState()
     val isPhysicalCurrent = (detectedBeacon != null && detectedBeacon?.uid == place.place.uid)
 
@@ -294,7 +300,7 @@ fun CentralHubLoop(place: PlaceWithDetails, isScanning: Boolean) {
                 contentDescription = place.place.locationName,
                 modifier = Modifier.fillMaxSize(),
                 containerColor = Color.Transparent,
-                localFallbackResId = com.example.R.drawable.img_zone_default
+                localFallbackResId = localPhotoResId
             )
         }
 
