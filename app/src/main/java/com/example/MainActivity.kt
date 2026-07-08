@@ -314,36 +314,75 @@ fun HexAppMainContainer(compassHeadingFlow: MutableStateFlow<Float>) {
                 )
                 .padding(paddingValues)
         ) {
-            Column(modifier = Modifier.fillMaxSize()) {
-                if (selectedTab == 0) {
-                    HeaderSection(isScanning = isScanning)
-                }
-
+            if (allPlaces.isEmpty()) {
                 Box(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .weight(1f)
+                        .fillMaxSize()
+                        .background(Color(0xFF040A12)),
+                    contentAlignment = Alignment.Center
                 ) {
-                    when (selectedTab) {
-                        0 -> ExploreScreen(
-                            activePlace = activeRadarPlace,
-                            allPlaces = allPlaces,
-                            isScanning = isScanning,
-                            onPlaceClick = { viewModel.selectPlaceManually(it) },
-                            detectedBeacon = detectedBeacon,
-                            compassHeading = compassHeading
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        Image(
+                            painter = painterResource(id = com.example.R.drawable.logo),
+                            contentDescription = "App Logo",
+                            modifier = Modifier
+                                .size(96.dp)
+                                .clip(RoundedCornerShape(24.dp))
                         )
-                        1 -> ZonesScreen(
-                            allPlaces = allPlaces,
-                            detectedBeacon = detectedBeacon,
-                            onPlaceClick = { viewModel.selectPlaceManually(it) }
+                        Spacer(modifier = Modifier.height(24.dp))
+                        Text(
+                            text = "Welcome to HEX 2083",
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Black,
+                            color = Color.White,
+                            letterSpacing = 0.5.sp
                         )
-                        2 -> MeScreen(
-                            viewModel = viewModel,
-                            allPlaces = allPlaces
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(
+                            text = "Initializing database...",
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Medium,
+                            color = ElectricCyan,
+                            letterSpacing = 1.sp
                         )
                     }
+                }
+            } else {
+                Column(modifier = Modifier.fillMaxSize()) {
+                    if (selectedTab == 0) {
+                        HeaderSection(isScanning = isScanning)
+                    }
 
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .weight(1f)
+                    ) {
+                        when (selectedTab) {
+                            0 -> ExploreScreen(
+                                activePlace = activeRadarPlace,
+                                allPlaces = allPlaces,
+                                isScanning = isScanning,
+                                onPlaceClick = { viewModel.selectPlaceManually(it) },
+                                detectedBeacon = detectedBeacon,
+                                compassHeading = compassHeading
+                            )
+                            1 -> ZonesScreen(
+                                allPlaces = allPlaces,
+                                detectedBeacon = detectedBeacon,
+                                onPlaceClick = { viewModel.selectPlaceManually(it) }
+                            )
+                            2 -> MeScreen(
+                                viewModel = viewModel,
+                                allPlaces = allPlaces
+                            )
+                        }
+                    }
+                }
+            }
                     androidx.compose.animation.AnimatedVisibility(
                         visible = currentPlace != null,
                         enter = slideInVertically(initialOffsetY = { it }) + fadeIn(),
@@ -390,8 +429,6 @@ fun HexAppMainContainer(compassHeadingFlow: MutableStateFlow<Float>) {
                 }
             }
         }
-    }
-}
 
 @Composable
 fun BottomNavItem(
