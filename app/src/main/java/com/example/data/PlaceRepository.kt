@@ -56,6 +56,11 @@ class PlaceRepository(
                     val navigationsToInsert = mutableListOf<NavigationEntity>()
 
                     response.beacons.forEach { (uid, beacon) ->
+                        val pathwayAdapter = moshi.adapter<List<JsonPathway>>(
+                            com.squareup.moshi.Types.newParameterizedType(List::class.java, JsonPathway::class.java)
+                        )
+                        val aboutNavJson = beacon.detailedInfo.aboutNavigation?.let { pathwayAdapter.toJson(it) }
+
                         // 1. Create PlaceEntity
                         placesToInsert.add(
                             PlaceEntity(
@@ -66,7 +71,9 @@ class PlaceRepository(
                                 major = beacon.major,
                                 minor = beacon.minor,
                                 about = beacon.detailedInfo.about,
-                                imageUrl = beacon.imageUrl
+                                imageUrl = beacon.imageUrl,
+                                isVisited = false,
+                                aboutNavigationJson = aboutNavJson
                             )
                         )
 

@@ -45,7 +45,19 @@
             "image_url": "img_rainwater_management"
           }
         ],
-        "games": []
+        "games": [],
+        "about_navigation": [
+          {
+            "title": "To the Right: Block B",
+            "desc": "Walking right from the registration desk leads directly into Block B.",
+            "images": ["img_way_to_block_b"]
+          },
+          {
+            "title": "Straight Ahead: Basketball Court & Architecture Zone",
+            "desc": "Continuing straight past the registration desk brings you directly to the outdoor Basketball Court and the Architecture Zone exhibition spaces.",
+            "images": ["img_basketball_court", "img_architect_zone"]
+          }
+        ]
       },
       "navigation": {
         "in_front": null,
@@ -147,6 +159,18 @@
             "desc": "Trigger the digital sensor exactly at 10.00 seconds. Win premium stickers for sub-millisecond precision!",
             "image_url": ""
           }
+        ],
+        "about_navigation": [
+          {
+            "title": "Adjacent Side: Architecture Zone",
+            "desc": "The Architecture Zone structural showcase models are located right along the side perimeter of the Basketball Court area.",
+            "images": ["img_architect_zone"]
+          },
+          {
+            "title": "Opposite Side: Robo Soccer Arena",
+            "desc": "Walk past the main tech club setups to the other side of the court to find the active Robo Soccer Arena.",
+            "images": ["img_robo_soccer_arena"]
+          }
         ]
       },
       "navigation": {
@@ -187,6 +211,18 @@
             "title": "Face Paint Creative Zone",
             "desc": "Get your face painted with traditional structural themes or tech glow designs by architecture students!",
             "image_url": "img_face_painting"
+          }
+        ],
+        "about_navigation": [
+          {
+            "title": "Behind the Zone: Block B",
+            "desc": "Block B is situated directly behind the Architecture Zone exhibition area.",
+            "images": ["img_block_b_back"]
+          },
+          {
+            "title": "Adjacent Side: Basketball Court & Tech Club Zone",
+            "desc": "The central Basketball Court housing the active IT, Robotics, and Electronics club stalls is located directly to the side of the Architecture Zone.",
+            "images": ["img_basketball_court"]
           }
         ]
       },

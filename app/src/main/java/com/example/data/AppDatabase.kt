@@ -12,7 +12,7 @@ import androidx.room.RoomDatabase
         GameEntity::class,
         NavigationEntity::class
     ],
-    version = 4,
+    version = 5,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {

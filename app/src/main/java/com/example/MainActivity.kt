@@ -107,6 +107,11 @@ import com.example.ui.LocationImage
 import com.example.ui.getIconForLocation
 import com.example.ui.CoilImageWithFallback
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.layout.ContentScale
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.Types
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import com.example.data.JsonPathway
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import android.hardware.Sensor
 import android.hardware.SensorEvent
@@ -1388,6 +1393,22 @@ fun Level3DeepDivePanel(
 
 @Composable
 fun TabAboutContent(place: PlaceWithDetails) {
+    val context = LocalContext.current
+    val pathways = remember(place.place.aboutNavigationJson) {
+        if (!place.place.aboutNavigationJson.isNullOrEmpty()) {
+            try {
+                val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
+                val type = Types.newParameterizedType(List::class.java, JsonPathway::class.java)
+                val adapter = moshi.adapter<List<JsonPathway>>(type)
+                adapter.fromJson(place.place.aboutNavigationJson)
+            } catch (e: Exception) {
+                null
+            }
+        } else {
+            null
+        }
+    }
+
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(16.dp)
@@ -1452,6 +1473,101 @@ fun TabAboutContent(place: PlaceWithDetails) {
                             color = WhiteTranslucent,
                             fontSize = 12.sp
                         )
+                    }
+                }
+            }
+        }
+
+        pathways?.let { pathwayList ->
+            if (pathwayList.isNotEmpty()) {
+                item {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 16.dp)
+                    ) {
+                        Text(
+                            text = "NEARBY DESTINATIONS & PATHWAYS",
+                            fontSize = 11.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = ElectricCyan,
+                            letterSpacing = 1.5.sp,
+                            modifier = Modifier.padding(start = 4.dp, bottom = 12.dp)
+                        )
+                        
+                        pathwayList.forEach { pathway ->
+                            GlassmorphicCard(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(bottom = 14.dp),
+                                shape = RoundedCornerShape(20.dp),
+                                backgroundColor = TranslucentSurface.copy(alpha = 0.3f),
+                                borderColor = Color.White.copy(alpha = 0.05f)
+                            ) {
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(16.dp)
+                                ) {
+                                    Text(
+                                        text = pathway.title,
+                                        fontSize = 15.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        color = Color.White
+                                    )
+                                    Spacer(modifier = Modifier.height(4.dp))
+                                    Text(
+                                        text = pathway.desc,
+                                        fontSize = 12.sp,
+                                        color = WhiteTranslucent,
+                                        lineHeight = 18.sp
+                                    )
+                                    Spacer(modifier = Modifier.height(12.dp))
+                                    
+                                    if (pathway.images.isNotEmpty()) {
+                                        if (pathway.images.size == 1) {
+                                            val imgResName = pathway.images[0]
+                                            val imgResId = remember(imgResName) {
+                                                context.resources.getIdentifier(imgResName, "drawable", context.packageName)
+                                            }
+                                            if (imgResId != 0) {
+                                                Image(
+                                                    painter = painterResource(id = imgResId),
+                                                    contentDescription = pathway.title,
+                                                    modifier = Modifier
+                                                        .fillMaxWidth()
+                                                        .height(140.dp)
+                                                        .clip(RoundedCornerShape(16.dp)),
+                                                    contentScale = ContentScale.Crop
+                                                )
+                                            }
+                                        } else {
+                                            Row(
+                                                modifier = Modifier.fillMaxWidth(),
+                                                horizontalArrangement = Arrangement.spacedBy(10.dp)
+                                            ) {
+                                                pathway.images.forEach { imgResName ->
+                                                    val imgResId = remember(imgResName) {
+                                                        context.resources.getIdentifier(imgResName, "drawable", context.packageName)
+                                                    }
+                                                    if (imgResId != 0) {
+                                                        Image(
+                                                            painter = painterResource(id = imgResId),
+                                                            contentDescription = pathway.title,
+                                                            modifier = Modifier
+                                                                .weight(1f)
+                                                                .height(110.dp)
+                                                                .clip(RoundedCornerShape(16.dp)),
+                                                            contentScale = ContentScale.Crop
+                                                        )
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }

@@ -23,7 +23,8 @@ data class PlaceEntity(
     val minor: Int,
     val about: String,
     val imageUrl: String? = null,
-    val isVisited: Boolean = false
+    val isVisited: Boolean = false,
+    val aboutNavigationJson: String? = null
 )
 
 @Entity(
@@ -142,7 +143,15 @@ data class JsonBeacon(
 data class JsonDetailedInfo(
     val about: String,
     val showcases: List<JsonShowcase>,
-    val games: List<JsonGame>
+    val games: List<JsonGame>,
+    @Json(name = "about_navigation") val aboutNavigation: List<JsonPathway>? = null
+)
+
+@JsonClass(generateAdapter = true)
+data class JsonPathway(
+    val title: String,
+    val desc: String,
+    val images: List<String>
 )
 
 @JsonClass(generateAdapter = true)
