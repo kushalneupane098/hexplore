@@ -140,6 +140,29 @@ class BleScannerService : Service() {
             val uid = "HEX_BEACON_" + iBeacon.minor.toString().padStart(2, '0')
             Log.d(TAG, "Detected iBeacon packet: Major=${iBeacon.major}, Minor=${iBeacon.minor} -> $uid, RSSI=$rssi")
             trackBeaconRssi(uid, rssi)
+            return
+        }
+
+        // 3. Fallback to custom manufacturer data (loops through all manufacturer keys)
+        val mfgDataArray = result.scanRecord?.manufacturerSpecificData
+        if (mfgDataArray != null) {
+            for (i in 0 until mfgDataArray.size()) {
+                val key = mfgDataArray.keyAt(i)
+                val value = mfgDataArray.valueAt(i)
+                if (value != null) {
+                    val valueStr = String(value, Charsets.UTF_8).trim()
+                    if (valueStr.contains("HEX_BEACON")) {
+                        val match = Regex("""HEX_BEACON_?(\d+)""").find(valueStr)
+                        val num = match?.groupValues?.get(1)?.toIntOrNull()
+                        if (num != null) {
+                            val uid = "HEX_BEACON_" + num.toString().padStart(2, '0')
+                            Log.d(TAG, "Detected beacon by manufacturer data (ID=$key): $uid, RSSI=$rssi")
+                            trackBeaconRssi(uid, rssi)
+                            return
+                        }
+                    }
+                }
+            }
         }
     }
 
