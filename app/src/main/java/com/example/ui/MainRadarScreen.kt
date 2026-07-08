@@ -7,6 +7,7 @@ import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
+import androidx.compose.ui.res.painterResource
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -396,6 +397,15 @@ fun CoilImageWithFallback(
     localFallbackResId: Int? = null
 ) {
     var isError by remember { mutableStateOf(false) }
+    val context = androidx.compose.ui.platform.LocalContext.current
+    val localResId = remember(imageUrl) {
+        if (!imageUrl.isNullOrEmpty()) {
+            val res = context.resources.getIdentifier(imageUrl, "drawable", context.packageName)
+            if (res != 0) res else null
+        } else {
+            null
+        }
+    }
 
     Box(
         modifier = modifier
@@ -403,7 +413,14 @@ fun CoilImageWithFallback(
             .background(containerColor),
         contentAlignment = Alignment.Center
     ) {
-        if (!imageUrl.isNullOrEmpty() && !isError) {
+        if (localResId != null) {
+            Image(
+                painter = painterResource(id = localResId),
+                contentDescription = contentDescription,
+                modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.Crop
+            )
+        } else if (!imageUrl.isNullOrEmpty() && !isError) {
             Image(
                 painter = rememberAsyncImagePainter(
                     model = imageUrl,
