@@ -74,6 +74,10 @@ See [`TECH_STACK.md`](TECH_STACK.md) for the full deep-dive technical architectu
 - **BLE Hardware**: ESP32 microcontrollers running custom Arduino firmware
 - **Architecture**: MVVM + Repository + Foreground Service
 
+## 🤖 GitHub CI
+
+The repository includes [`.github/workflows/android-ci.yml`](.github/workflows/android-ci.yml), which builds the debug APK on every push and pull request using GitHub Actions.
+
 ---
 
 ## 📋 Prerequisites
@@ -86,6 +90,8 @@ Before building, ensure you have the following installed:
 - **ADB** (`adb --version`) — comes with Android SDK platform tools
 - **Arduino IDE 2.x** (for flashing ESP32 beacons)
   - Install `esp32` board package via Boards Manager
+
+If you are setting up on Windows, use the dedicated guide in [docs/windows/README.md](docs/windows/README.md) and the helper scripts in [scripts/windows/hexplore.ps1](scripts/windows/hexplore.ps1).
 
 ---
 
@@ -100,10 +106,8 @@ cd hexplore
 
 ### 2. Configure Environment
 
-```bash
-# Copy the example env file (no real secrets needed for debug build)
-cp .env.example .env
-```
+- **Windows:** run [scripts/windows/setup.bat](scripts/windows/setup.bat) or [scripts/windows/hexplore.ps1](scripts/windows/hexplore.ps1)
+- **macOS/Linux:** copy `.env.example` to `.env` if the file does not already exist
 
 ### 3. Connect Your Android Device
 
@@ -111,29 +115,17 @@ Enable **USB Debugging** on your phone:
 > Settings → About Phone → tap **Build Number** 7 times → Developer Options → USB Debugging ✅
 
 Connect via USB, then verify:
+
 ```bash
 adb devices
-# Should list your device, e.g:
-# R5CT31XXXXX  device
 ```
 
 ### 4. Build & Install
 
-```bash
-# Compile and install the debug APK directly onto the connected phone
-./gradlew installDebug
-```
+- **Windows:** run [scripts/windows/build.bat](scripts/windows/build.bat) to compile the debug APK, or [scripts/windows/install.bat](scripts/windows/install.bat) to build and install to the connected device
+- **Other platforms:** run `./gradlew assembleDebug` or `./gradlew installDebug`
 
-The app will be automatically installed and ready to launch.
-
-### 5. Build a Standalone APK (Optional)
-
-```bash
-./gradlew assembleDebug
-# Output: app/build/outputs/apk/debug/app-debug.apk
-```
-
-You can share this APK file directly for sideloading.
+The generated APK is written to `app/build/outputs/apk/debug/app-debug.apk`.
 
 ---
 
@@ -168,6 +160,12 @@ Each physical exhibition zone requires one ESP32 microcontroller running the bea
 
 ```
 hexplore/
+├── .github/
+│   └── workflows/
+│       └── android-ci.yml            # GitHub Actions workflow for debug APK builds
+├── docs/
+│   └── windows/
+│       └── README.md                # Windows setup, build, and USB install guide
 ├── app/
 │   └── src/main/
 │       ├── assets/
@@ -189,6 +187,13 @@ hexplore/
 │       └── res/
 │           └── drawable/                   # Zone + project photographs
 ├── esp32_beacon.ino                        # ESP32 Arduino beacon firmware
+├── scripts/
+│   └── windows/
+│       ├── hexplore.ps1                  # Windows helper for setup/build/install/device checks
+│       ├── setup.bat                     # One-click setup wrapper
+│       ├── build.bat                     # Build debug APK wrapper
+│       ├── install.bat                   # Build + install over USB wrapper
+│       └── devices.bat                   # adb devices wrapper
 ├── TECH_STACK.md                           # Technical architecture documentation
 └── README.md                               # This file
 ```

@@ -499,69 +499,109 @@ fun ExploreScreen(
                     heading = compassHeading
                 )
                 Spacer(modifier = Modifier.height(16.dp))
-                
-                Text(
-                    text = if (isScanning) {
-                        if (detectedBeacon != null) "Department Zone Unlocked" else "Scanning HCOE Campus..."
-                    } else "Radar Offline",
-                    color = Color.White,
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold,
-                    textAlign = TextAlign.Center
-                )
-                Spacer(modifier = Modifier.height(6.dp))
-                
-                Text(
-                    text = if (isScanning) {
-                        if (detectedBeacon != null) "You are currently near ${activePlace?.place?.locationName}. Explore directions or dive deep below." 
-                        else "Approach a department zone or project stall to automatically unlock exhibits!"
-                    } else "Enable the scanning radar to explore the Himalaya Exhibition.",
-                    color = WhiteTranslucent,
-                    fontSize = 13.sp,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.padding(horizontal = 24.dp)
-                )
             }
         }
 
-        if (isScanning && detectedBeacon != null && activePlace != null) {
-            item {
+        item {
+            if (isScanning && detectedBeacon != null && activePlace != null) {
+                // MERGED: Status + Active Zone into one unified card
                 GlassmorphicCard(
                     onClick = { onPlaceClick(activePlace) },
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(24.dp),
-                    borderColor = ElectricCyan.copy(alpha = 0.3f),
+                    borderColor = ElectricCyan.copy(alpha = 0.35f),
                     backgroundColor = TranslucentSurface.copy(alpha = 0.5f)
                 ) {
                     Row(
-                        modifier = Modifier.padding(16.dp),
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 14.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         LocationImage(
                             imageName = activePlace.place.imageAsset,
                             contentDescription = activePlace.place.locationName,
                             modifier = Modifier
-                                .size(72.dp)
-                                .clip(RoundedCornerShape(16.dp))
+                                .size(68.dp)
+                                .clip(RoundedCornerShape(14.dp))
                         )
-                        Spacer(modifier = Modifier.width(16.dp))
+                        Spacer(modifier = Modifier.width(14.dp))
                         Column(modifier = Modifier.weight(1f)) {
-                            Text(
-                                text = "ACTIVE ZONE",
-                                fontSize = 10.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = ElectricCyan,
-                                letterSpacing = 1.sp
-                            )
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Box(
+                                    modifier = Modifier
+                                        .size(7.dp)
+                                        .background(Color(0xFF00E676), CircleShape)
+                                )
+                                Spacer(modifier = Modifier.width(6.dp))
+                                Text(
+                                    text = "ZONE UNLOCKED",
+                                    fontSize = 10.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = Color(0xFF00E676),
+                                    letterSpacing = 1.sp
+                                )
+                            }
+                            Spacer(modifier = Modifier.height(3.dp))
                             Text(
                                 text = activePlace.place.locationName,
-                                fontSize = 16.sp,
+                                fontSize = 17.sp,
                                 fontWeight = FontWeight.Black,
                                 color = Color.White
                             )
-                            Spacer(modifier = Modifier.height(4.dp))
+                            Spacer(modifier = Modifier.height(2.dp))
                             Text(
-                                text = "Tap to Explore showcases & games",
+                                text = "Tap to explore showcases & games",
+                                fontSize = 12.sp,
+                                color = WhiteTranslucent
+                            )
+                        }
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                            contentDescription = null,
+                            tint = ElectricCyan.copy(alpha = 0.7f),
+                            modifier = Modifier.size(22.dp)
+                        )
+                    }
+                }
+            } else {
+                // Scanning or offline status card
+                GlassmorphicCard(
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(24.dp),
+                    borderColor = Color.White.copy(alpha = 0.08f),
+                    backgroundColor = TranslucentSurface.copy(alpha = 0.3f)
+                ) {
+                    Row(
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 14.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .size(48.dp)
+                                .background(
+                                    if (isScanning) ElectricCyan.copy(alpha = 0.12f) else Color.White.copy(alpha = 0.06f),
+                                    RoundedCornerShape(14.dp)
+                                ),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Icon(
+                                imageVector = if (isScanning) Icons.Default.Radar else Icons.Default.Close,
+                                contentDescription = null,
+                                tint = if (isScanning) ElectricCyan else WhiteTranslucent,
+                                modifier = Modifier.size(26.dp)
+                            )
+                        }
+                        Spacer(modifier = Modifier.width(14.dp))
+                        Column(modifier = Modifier.weight(1f)) {
+                            Text(
+                                text = if (isScanning) "Scanning HCOE Campus..." else "Radar Offline",
+                                fontSize = 15.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = Color.White
+                            )
+                            Spacer(modifier = Modifier.height(2.dp))
+                            Text(
+                                text = if (isScanning) "Approach a zone to unlock exhibits"
+                                       else "Enable scanning to explore the exhibition",
                                 fontSize = 12.sp,
                                 color = WhiteTranslucent
                             )
@@ -570,7 +610,7 @@ fun ExploreScreen(
                 }
             }
         }
-        
+
         item {
             Spacer(modifier = Modifier.height(40.dp))
         }
